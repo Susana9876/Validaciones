@@ -1,0 +1,85 @@
+<h4 class="text-primary">Validación de Formularios -  <small>Lado del template</small></h4>
+<hr>
+<form autocomplete="off"  (ngSubmit)="enviar(form)" #form="ngForm">
+    <div>
+        <!-- ---------------------- PRIMER INPUT ------------------ -->
+        <div class="form-group row">
+            <label class="col-2 col-form-label text-center font-weight-bold" for="nombre">Nombre:</label>
+            <div class="col-8">
+                <input class="form-control" type="text" name="nombre" required minlength="7" [ngModel]="usuario.nombre" placeholder="Nombre" #nombre="ngModel" [class.is-valid]="nombre.valid" [class.is-invalid]="nombre.invalid && nombre.touched">
+                <!-- Mnesajes de error -->
+                <div *ngIf="nombre.errors?.required" class="invalid-feedback">
+                    Campo obligatorio
+                </div>
+                <div *ngIf="nombre.errors?.minlength" class="invalid-feedback">
+                    Tiene que haber al menos 7 caracteres
+                </div>
+                <!-- Mnesajes de error -->
+            </div>
+        </div>
+        <!-- ---------------------- SEGUNDO INPUT ------------------ -->
+        <div class="form-group row">
+            <label class="col-2 col-form-label text-center font-weight-bold" for="apellido">Apellido:</label>
+            <div class="col-8">
+                <input class="form-control" type="text" name="apellido" required minlength="7" [ngModel]="usuario.apellido" #apellido="ngModel" [class.is-valid]="apellido.valid" [class.is-invalid]="apellido.invalid && apellido.touched" placeholder="Apellido">
+                <!-- Mnesajes de error -->
+                <div *ngIf="apellido.errors?.required" class="invalid-feedback">
+                    Campo obligatorio
+                </div>
+                <div *ngIf="apellido.errors?.minlength" class="invalid-feedback">
+                    Tiene que haber al menos 7 caracteres
+                </div>
+                <!-- Mnesajes de error -->
+            </div>
+        </div>
+        <!-- ---------------------- TERCER INPUT ------------------ -->
+        <div class="form-group row">
+            <label class="col-2 col-form-label text-center font-weight-bold" for="email">Email:</label>
+            <div class="col-8">
+                <input class="form-control" type="email" name="correo" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" [ngModel]="usuario.correo" #correo="ngModel" [class.is-valid]="correo.valid" [class.is-invalid]="correo.invalid && correo.touched">
+            </div>
+        </div>
+
+        <!---------- INPUT SELECT ----------->
+        <div class="form-group row">
+            <label for="" class="col-2 col-form-label text-center font-weight-bold">País</label>
+            <div class="col-10">
+                <select class="form-control" required name="pais" [ngModel]="usuario.pais"  #pais="ngModel" [class.is-valid]="pais.valid" [class.is-invalid]="pais.invalid && pais.touched" name="pais">
+                    <option *ngFor="let pais of Countries" [value]="pais.code">{{pais.name}}</option>
+                </select>
+                <!-- Agregar mensajes de error -->
+            </div>
+        </div>
+
+        <!--------- INPUT TYPE RADIO ---------->
+        <div class="form-group row">
+            <div class="col-12">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="genero" [ngModel]="usuario.genero" value="F">
+                    <label for="" class="form-check-label">Femenino</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="genero" [ngModel]="usuario.genero" value="M">
+                    <label for="" class="form-check-label">Masculino</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- ---------------------- BOTÓN ENVIAR ------------------ -->
+        <div class="form-group row">
+            <!-- <label class="col-2 col-form-label text-center font-height-bold" for="email">Email</label> -->
+            <div class="col-10 input-group">
+                <button [disabled]="!form.valid" type="submit" class="btn btn-outline-primary btn-block">Guardar</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="alert alert-danger" *ngIf="form.invalid && form.touched && form.submitted">
+        Error de formulario
+    </div>
+</form>
+<!-- <pre>
+    Estado: {{form.status}}
+    <hr>
+    {{form.value | json}}
+</pre> -->
